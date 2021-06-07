@@ -14,8 +14,6 @@ import fireabseConfig from "./firebase.config.json"
 const dotenv = require("dotenv")
 dotenv.config()
 
-console.log(process.env.FIREBASE_API_KEY)
-
 const config = {
     apiKey: process.env.FIREBASE_API_KEY || fireabseConfig.FIREBASE.API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN || fireabseConfig.FIREBASE.AUTH_DOMAIN,
@@ -24,6 +22,32 @@ const config = {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || fireabseConfig.FIREBASE.MESSAGING_SENDER_ID,
     appId: process.env.FIREBASE_APP_ID || fireabseConfig.FIREBASE.APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID || fireabseConfig.FIREBASE.MEASUREMENT_ID
+}
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+    if(!userAuth) return
+
+    const userRef = firestore.doc(`users/${userAuth.uid}`)
+    const snapshot = await userRef.get()
+
+    if(!snapshot.exists) {
+        const { displayName, email } = userAuth
+        const createdAt = new Date()
+
+        try {
+            await userRef.set({
+                displayName,
+                email,
+                createdAt,
+                ...additionalData
+            })
+        }
+        catch(error) {
+            console.log("Error creating user", error.message)
+        }
+    }
+
+    return userRef
 }
 
 firebase.initializeApp(config)
