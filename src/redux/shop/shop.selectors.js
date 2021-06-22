@@ -15,3 +15,8 @@ export const selectCollection = memoize(collectionUrlParam => {
     )
 }
 )
+
+export const selectCollectionForPreview = createSelector(
+    [selectCollections],
+    collections => Object.keys(collections).map(key => collections[key])
+)
