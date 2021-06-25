@@ -10,7 +10,7 @@ const CollectionItem = ({ item, addItem }) => {
 
     return (
         <CollectionItemContainer>
-            <BackgroundImage imageUrl={imageUrl} />
+            <BackgroundImage className="image" imageUrl={imageUrl} />
             <CollectionFooterContainer>
                 <NameContainer>{ name }</NameContainer>
                 <PriceContainer>{ price }</PriceContainer>
