@@ -3,22 +3,22 @@ import "firebase/firestore"
 import "firebase/auth"
 
 const config = {
-            apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-            authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-            projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-            storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-            messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-            appId: process.env.REACT_APP_FIREBASE_APP_ID,
-            measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 }
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-    if(!userAuth) return
+    if (!userAuth) return
 
     const userRef = firestore.doc(`users/${userAuth.uid}`)
     const snapshot = await userRef.get()
 
-    if(!snapshot.exists) {
+    if (!snapshot.exists) {
         const { displayName, email } = userAuth
         const createdAt = new Date()
 
@@ -30,7 +30,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 ...additionalData
             })
         }
-        catch(error) {
+        catch (error) {
             console.log("Error creating user", error.message)
         }
     }
@@ -40,7 +40,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
     const collectionRef = firestore.collection(collectionKey)
-    
+
     const batch = firestore.batch()
 
     objectsToAdd.forEach(obj => {
@@ -67,6 +67,15 @@ export const convertCollectionsSnapshotToMap = (collections) => {
         accumulator[collection.title.toLowerCase()] = collection
         return accumulator
     }, {})
+}
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(userAuth => {
+            unsubscribe()
+            resolve(userAuth)
+        }, reject)
+    })
 }
 
 firebase.initializeApp(config)
