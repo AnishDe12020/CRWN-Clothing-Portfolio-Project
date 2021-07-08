@@ -20,7 +20,8 @@
     "dotenv": "7.0.0",
     "express": "^4.16.4",
     "stripe": "6.28.0",
-    "yargs-parser": ">=13.1.2"
+    "yargs-parser": ">=13.1.2",
+    "glob-parent": ">=5.1.2"
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
