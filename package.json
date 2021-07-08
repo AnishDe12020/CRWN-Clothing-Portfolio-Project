@@ -16,12 +16,11 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "1.7.4",
-    "cors": "2.8.5",
     "dotenv": "7.0.0",
     "express": "^4.16.4",
+    "glob-parent": ">=5.1.2",
     "stripe": "6.28.0",
-    "yargs-parser": ">=13.1.2",
-    "glob-parent": ">=5.1.2"
+    "yargs-parser": ">=13.1.2"
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
