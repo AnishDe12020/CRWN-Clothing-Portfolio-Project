@@ -9,7 +9,7 @@ import App from './App'
 
 import { store, persistor } from "./redux/store"
 
-import * as serviceWorker from "./service-worker"
+import * as serviceWorker from "./serviceWorkerRegistration"
 
 ReactDOM.render(
   <Provider store={store}>
